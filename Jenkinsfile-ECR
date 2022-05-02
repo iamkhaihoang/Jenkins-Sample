@@ -8,14 +8,8 @@ pipeline {
 		IMAGE_NAME = "${GITHUB_REPO_NAME}:${IMAGE_TAG}"
 		JENKINS_DEPLOY_MACHINE = "192.168.37.111"
 	}
+    dir("PROJECT-JENKINS-ECR") {
     stages {
-	 stage("Prepare for Build Directory") {
-            steps {
-                dir("PROJECT-JENKINS-ECR") {
-			sh "pwd"
-		}
-            }
-        }
         stage("Build Application") {
             steps {
                 sh """
@@ -51,4 +45,5 @@ pipeline {
 			sh 'docker logout'
 		}
 	}
+  }
 }
