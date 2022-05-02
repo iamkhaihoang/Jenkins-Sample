@@ -9,19 +9,22 @@ pipeline {
 		JENKINS_DEPLOY_MACHINE = "192.168.37.111"
 	}
     stages {
-     dir("PROJECT-JENKINS-ECR") {
         stage("Build Application") {
             steps {
-                sh """
-                    javac project_app.java
-                """
+	        dir("PROJECT-JENKINS-ECR") {
+               	 sh """
+                	javac project_app.java
+                  """
+		}
             }
         }
         stage("Build Docker Image of the Application") {
             steps {
-                sh """
-        		    docker build -t $IMAGE_NAME .
-                """
+	    	dir("PROJECT-JENKINS-ECR") {
+                  sh """
+        	    docker build -t $IMAGE_NAME .
+                  """
+		}
             }
         }			
 	stage("Push the Image to DockerHub") {
@@ -45,4 +48,3 @@ pipeline {
 		}
 	}
   }
-}
