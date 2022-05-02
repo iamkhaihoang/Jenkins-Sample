@@ -8,12 +8,6 @@ pipeline {
 		JENKINS_DEPLOY_MACHINE = "192.168.37.111"
 	}
     stages {
-        stage('prepare project') {
-	    steps {
-        	// GO TO JENKINS2ECR project
-        	sh ('cd ./PROJECT-JENKINS-ECR/')
-		}
-    	}
         stage("Build Application") {
             steps {
                 sh """
