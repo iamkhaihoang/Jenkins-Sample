@@ -19,6 +19,7 @@ pipeline {
         stage("Build Application") {
             steps {
                 sh """
+		    pwd
                     javac project_app.java
                 """
             }
