@@ -9,8 +9,12 @@ pipeline {
 	}
     stages {
         stage('prepare project') {
-        // GO TO JENKINS2ECR project
-        sh "cd PROJECT-JENKINS-ECR"
+	    steps {
+        	// GO TO JENKINS2ECR project
+        	sh """
+			cd PROJECT-JENKINS-ECR
+		"""
+		}
     	}
         stage("Build Application") {
             steps {
