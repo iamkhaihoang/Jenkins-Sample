@@ -11,7 +11,9 @@ pipeline {
     stages {
 	 stage("Prepare for Build Directory") {
             steps {
-                dir("PROJECT-JENKINS-ECR")
+                dir("PROJECT-JENKINS-ECR") {
+			sh "pwd"
+		}
             }
         }
         stage("Build Application") {
