@@ -21,7 +21,7 @@ pipeline {
         }
         stage("Build Docker Image of the Application") {
             steps {
-	    	dir(("$BUILD_DIR") {
+	    	dir("$BUILD_DIR") {
                   sh """
         	    docker build -t $IMAGE_NAME .
                   """
