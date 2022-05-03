@@ -12,36 +12,14 @@ pipeline {
     stages {
         stage("Build Application") {
             steps {
+                sh('pwd')
                 dir('PROJECT-JENKINS-ECR') {
                     sh """
-                        javac project_app.java
+                        pwd
                     """
                 }
             }
         }
-        stage("Build Docker Image of the Application") {
-            steps {
-                dir('PROJECT-JENKINS-ECR') {
-                    sh """
-        		        docker build -t $IMAGE_NAME .
-                    """
-                }    
-            }
-        }			
-	stage("Push the Image to DockerHub") {
-            steps {
-		sh('echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin')
-                sh('docker push $IMAGE_NAME')
-            }
-        }
-	//stage("Deploy") {
-        //    steps {
-        //	sh """	
-	//		ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker rmi -f $IMAGE_NAME
-	//		ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker pull $IMAGE_NAME			
-	//	"""    
-        //    }
-        //}
     }
 	post {
 		always {
