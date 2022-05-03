@@ -12,12 +12,7 @@ pipeline {
     stages {
         stage("Build Application") {
             steps {
-                sh('pwd')
-                dir("PROJECT-JENKINS-ECR") {
-                    sh """
-                        pwd
-                    """
-                }
+                sh "pwd"
             }
         }
     }
