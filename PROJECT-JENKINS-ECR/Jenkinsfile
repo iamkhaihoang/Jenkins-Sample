@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage("Build Application") {
             steps {
-                dir('PROJECT-JENKINS-ECR') {
+                dir("$WORKING_DIR") {
                     sh """
                         javac project_app.java
                     """
@@ -21,7 +21,7 @@ pipeline {
         }
         stage("Build Docker Image of the Application") {
             steps {
-                dir('PROJECT-JENKINS-ECR') {
+                dir("$WORKING_DIR") {
                     sh """
         		        docker build -t $IMAGE_NAME .
                     """
@@ -34,14 +34,14 @@ pipeline {
                 sh('docker push $IMAGE_NAME')
             }
         }
-	//stage("Deploy") {
-        //    steps {
-        //	sh """	
-	//		ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker rmi -f $IMAGE_NAME
-	//		ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker pull $IMAGE_NAME			
-	//	"""    
-        //    }
-        //}
+	stage("Deploy") {
+           steps {
+        	sh """	
+			ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker rmi -f $IMAGE_NAME
+			ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker pull $IMAGE_NAME			
+	    	"""    
+           }
+        }
     }
 	post {
 		always {
