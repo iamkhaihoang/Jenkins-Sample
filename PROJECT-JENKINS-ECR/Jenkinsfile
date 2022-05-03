@@ -11,8 +11,8 @@ pipeline {
 	}
     stages {
         stage("Build Application") {
-            steps {
-                dir("$WORKING_DIR") {
+            dir("$WORKING_DIR") {
+                steps {
                     sh """
                         javac project_app.java
                     """
@@ -20,8 +20,8 @@ pipeline {
             }
         }
         stage("Build Docker Image of the Application") {
-            steps {
-                dir("$WORKING_DIR") {
+            dir("$WORKING_DIR") {
+                steps {
                     sh """
         		        docker build -t $IMAGE_NAME .
                     """
