@@ -10,15 +10,6 @@ pipeline {
         WORKING_DIR="PROJECT-JENKINS-ECR"
 	}
     stages {
-	 stage("Prepare for Build Directory") {
-            steps {
-                dir("$WORKING_DIR") {
-                    sh """
-                        cd PROJECT-JENKINS-ECR
-                    """
-                }
-            }
-        }
         stage("Build Application") {
             steps {
                 dir("$WORKING_DIR") {
