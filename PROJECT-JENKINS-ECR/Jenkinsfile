@@ -12,7 +12,6 @@ pipeline {
     stages {
         stage("Build Application") {
             steps {
-                sh('pwd')
                 dir("$WORKING_DIR") {
                     sh """
                         javac project_app.java
