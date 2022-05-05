@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+	environment {
+		IMAGE_TAG = "1.0"
+		//get credential info from jenkins-test credential profile in Jenkins
+		DOCKERHUB_CREDENTIALS = credentials('jenkins-test')
+		GITHUB_REPO_NAME = "iamkhaihoang/devops16-app"
+        ERC_REPO_NAME = "public.ecr.aws/q3c7s1i9/project-app"
+		IMAGE_NAME = "${GITHUB_REPO_NAME}:${IMAGE_TAG}"
+        IMAGE_ERC_NAME = "${ERC_REPO_NAME}:${IMAGE_TAG}"
+		JENKINS_DEPLOY_MACHINE = "192.168.1.177"
+        WORKING_DIR="PROJECT-JENKINS-ECR"
+	}
+    stages {
+        stage("Build Application") {
+            steps {
+                dir("$WORKING_DIR") {
+                    sh """
+                        javac project_app.java
+                    """
+                }
+            }
+        }
+        stage("Build Docker Image of the Application") {
+            steps {
+                dir("$WORKING_DIR") {
+                    sh """
+        		        docker build -t $IMAGE_NAME .
+                        docker tag $IMAGE_NAME $IMAGE_ERC_NAME
+                    """
+                }    
+            }
+        }			
+	stage("Push the Image to AWS ERC") {
+            steps {		        
+                sh('aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/q3c7s1i9')
+                sh('docker push $IMAGE_ERC_NAME')
+            }
+        }
+	stage("Deploy") {
+           steps {
+        	sh """	
+			ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker rmi -f $IMAGE_NAME
+			ssh -o StrictHostKeyChecking=no $JENKINS_DEPLOY_MACHINE docker pull $IMAGE_NAME			
+	    	"""    
+           }
+        }
+    }
+	post {
+		always {
+			sh 'docker logout'
+		}
+	}
+}
