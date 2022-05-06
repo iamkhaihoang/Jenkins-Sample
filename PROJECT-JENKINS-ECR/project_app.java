@@ -4,12 +4,12 @@ public static void main(String[] args)
 	{           
 		System.out.print("Enter Firstname: ");   
 		//reading a string from the user  
-		String firstname = "";
-		firstname = System.console().readLine();  
+		//String firstname = System.console().readLine();  
+		String firstname = "Khai";
 		System.out.print("Enter Lastname: ");   
 		//reading a string from the user  
-		String lastname = "";
-		lastname = System.console().readLine();  
+		//String lastname = System.console().readLine();  
+		String lastname = "Hoang";
 		String strhello = "Welcome and Hello " +firstname + " " + lastname;
         strhello = strhello + " to Ziyotek DEVOPS16 team.";
 		System.out.println(strhello);   
