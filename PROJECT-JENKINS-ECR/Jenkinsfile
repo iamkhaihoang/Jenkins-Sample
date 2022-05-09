@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    paraneters {
+        choice (name: 'VERSION', choices: ['1.0', '1.1', '1.2', description: ''])
+        booleanParam(name: 'executeTests', defaultValue: true, description: '')
+    }
 	environment {
 		IMAGE_TAG = "1.0"
 		//get credential info from jenkins-test credential profile in Jenkins
