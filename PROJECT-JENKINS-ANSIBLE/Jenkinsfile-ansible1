@@ -1,0 +1,14 @@
+pipeline {
+    agent { label "jenkins-s3-ansible"}
+    
+    stages {
+        stage("Run Ansible adhoc") {
+            steps {
+                sh """
+                    #ansible -i inventory test_server -m ping
+                    ansible-playbook -i inventory dns-setup.yml
+                """
+            }
+        }
+    }
+}
